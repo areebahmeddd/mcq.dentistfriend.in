@@ -1,13 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { type User } from "@/lib/firebase-auth";
-import {
-  getQuizFiles,
-  getResultsByUserId,
-  type QuizFile,
-  type QuizResult,
-} from "@/lib/firestore";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,12 +8,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import QuizInterface from "./quiz-interface";
-import UserStatistics from "./user-statistics";
+import { type User } from "@/lib/firebase-auth";
+import {
+  getQuizFiles,
+  getResultsByUserId,
+  type QuizFile,
+  type QuizResult,
+} from "@/lib/firestore";
+import { useEffect, useState } from "react";
 import ModeSelector from "./mode-selector";
+import QuizInterface from "./quiz-interface";
 import StudyMode from "./study-mode";
+import UserStatistics from "./user-statistics";
 
 interface UserDashboardProps {
   user: User;
@@ -31,7 +31,7 @@ export default function UserDashboard({ user }: UserDashboardProps) {
   const [results, setResults] = useState<QuizResult[]>([]);
   const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null);
   const [selectedMode, setSelectedMode] = useState<"study" | "quiz" | null>(
-    null
+    null,
   );
   const [loading, setLoading] = useState(true);
 
@@ -128,7 +128,7 @@ export default function UserDashboard({ user }: UserDashboardProps) {
             ) : (
               quizFiles.map((file: any) => {
                 const fileResults = results.filter(
-                  (r: any) => r.fileId === file.id
+                  (r: any) => r.fileId === file.id,
                 );
                 const bestScore =
                   fileResults.length > 0
@@ -196,11 +196,11 @@ export default function UserDashboard({ user }: UserDashboardProps) {
                 .sort(
                   (a: any, b: any) =>
                     new Date(b.completedAt).getTime() -
-                    new Date(a.completedAt).getTime()
+                    new Date(a.completedAt).getTime(),
                 )
                 .map((result: any) => {
                   const quizFile = quizFiles.find(
-                    (f: any) => f.id === result.fileId
+                    (f: any) => f.id === result.fileId,
                   );
                   const resultDate = new Date(result.completedAt);
 

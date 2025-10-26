@@ -1,15 +1,13 @@
 import {
-  collection,
-  doc,
   addDoc,
-  getDocs,
-  getDoc,
-  updateDoc,
+  collection,
   deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
   query,
-  where,
-  orderBy,
   Timestamp,
+  where,
 } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -49,7 +47,7 @@ export interface QuizResult {
 }
 
 export async function saveQuestions(
-  questions: Omit<Question, "id">[]
+  questions: Omit<Question, "id">[],
 ): Promise<string[]> {
   try {
     const questionIds: string[] = [];
@@ -69,7 +67,7 @@ export async function saveQuestions(
 }
 
 export async function getQuestionsByFileId(
-  fileId: string
+  fileId: string,
 ): Promise<Question[]> {
   try {
     const q = query(collection(db, "questions"), where("fileId", "==", fileId));
@@ -80,7 +78,7 @@ export async function getQuestionsByFileId(
         ({
           id: doc.id,
           ...doc.data(),
-        } as Question)
+        }) as Question,
     );
 
     return questions.sort((a, b) => a.questionNumber - b.questionNumber);
@@ -102,7 +100,7 @@ export async function deleteQuestionsByFileId(fileId: string): Promise<void> {
 }
 
 export async function saveQuizFile(
-  quizFile: Omit<QuizFile, "id">
+  quizFile: Omit<QuizFile, "id">,
 ): Promise<string> {
   try {
     const docRef = await addDoc(collection(db, "quizFiles"), {
@@ -123,7 +121,7 @@ export async function getQuizFiles(): Promise<QuizFile[]> {
         ({
           id: doc.id,
           ...doc.data(),
-        } as QuizFile)
+        }) as QuizFile,
     );
   } catch (error) {
     return [];
@@ -131,7 +129,7 @@ export async function getQuizFiles(): Promise<QuizFile[]> {
 }
 
 export async function getQuizFilesByUserId(
-  userId: string
+  userId: string,
 ): Promise<QuizFile[]> {
   try {
     const q = query(collection(db, "quizFiles"), where("userId", "==", userId));
@@ -142,12 +140,12 @@ export async function getQuizFilesByUserId(
         ({
           id: doc.id,
           ...doc.data(),
-        } as QuizFile)
+        }) as QuizFile,
     );
 
     return files.sort(
       (a, b) =>
-        new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+        new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime(),
     );
   } catch (error) {
     return [];
@@ -155,7 +153,7 @@ export async function getQuizFilesByUserId(
 }
 
 export async function getQuizFileById(
-  fileId: string
+  fileId: string,
 ): Promise<QuizFile | null> {
   try {
     const docRef = doc(db, "quizFiles", fileId);
@@ -183,7 +181,7 @@ export async function deleteQuizFile(fileId: string): Promise<void> {
 }
 
 export async function saveQuizResult(
-  result: Omit<QuizResult, "id">
+  result: Omit<QuizResult, "id">,
 ): Promise<string> {
   try {
     const docRef = await addDoc(collection(db, "results"), {
@@ -197,7 +195,7 @@ export async function saveQuizResult(
 }
 
 export async function getResultsByUserId(
-  userId: string
+  userId: string,
 ): Promise<QuizResult[]> {
   try {
     const q = query(collection(db, "results"), where("userId", "==", userId));
@@ -208,12 +206,12 @@ export async function getResultsByUserId(
         ({
           id: doc.id,
           ...doc.data(),
-        } as QuizResult)
+        }) as QuizResult,
     );
 
     return results.sort(
       (a, b) =>
-        new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
+        new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime(),
     );
   } catch (error) {
     return [];
@@ -221,7 +219,7 @@ export async function getResultsByUserId(
 }
 
 export async function getResultsByFileId(
-  fileId: string
+  fileId: string,
 ): Promise<QuizResult[]> {
   try {
     const q = query(collection(db, "results"), where("fileId", "==", fileId));
@@ -232,12 +230,12 @@ export async function getResultsByFileId(
         ({
           id: doc.id,
           ...doc.data(),
-        } as QuizResult)
+        }) as QuizResult,
     );
 
     return results.sort(
       (a, b) =>
-        new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
+        new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime(),
     );
   } catch (error) {
     return [];

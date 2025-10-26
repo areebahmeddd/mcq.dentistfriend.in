@@ -1,14 +1,23 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface ModeSelectorProps {
-  onSelectMode: (mode: "study" | "quiz") => void
-  onBack: () => void
+  onSelectMode: (mode: "study" | "quiz") => void;
+  onBack: () => void;
 }
 
-export default function ModeSelector({ onSelectMode, onBack }: ModeSelectorProps) {
+export default function ModeSelector({
+  onSelectMode,
+  onBack,
+}: ModeSelectorProps) {
   return (
     <div className="space-y-6">
       <Button variant="outline" onClick={onBack}>
@@ -17,12 +26,17 @@ export default function ModeSelector({ onSelectMode, onBack }: ModeSelectorProps
 
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Select Mode</h2>
-        <p className="text-muted-foreground mt-2">Choose how you want to practice</p>
+        <p className="text-muted-foreground mt-2">
+          Choose how you want to practice
+        </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Study Mode Card */}
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onSelectMode("study")}>
+        <Card
+          className="hover:shadow-lg transition-shadow cursor-pointer"
+          onClick={() => onSelectMode("study")}
+        >
           <CardHeader>
             <CardTitle>Study Mode</CardTitle>
             <CardDescription>Learn at your own pace</CardDescription>
@@ -53,7 +67,10 @@ export default function ModeSelector({ onSelectMode, onBack }: ModeSelectorProps
         </Card>
 
         {/* Quiz Mode Card */}
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onSelectMode("quiz")}>
+        <Card
+          className="hover:shadow-lg transition-shadow cursor-pointer"
+          onClick={() => onSelectMode("quiz")}
+        >
           <CardHeader>
             <CardTitle>Quiz Mode</CardTitle>
             <CardDescription>Test your knowledge</CardDescription>
@@ -84,5 +101,5 @@ export default function ModeSelector({ onSelectMode, onBack }: ModeSelectorProps
         </Card>
       </div>
     </div>
-  )
+  );
 }

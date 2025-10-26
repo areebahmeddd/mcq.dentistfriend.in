@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Question, QuizResult } from "@/lib/firestore";
+import { useState } from "react";
 
 interface QuizResultsProps {
   result: QuizResult;
@@ -76,7 +76,7 @@ export default function QuizResults({
               <p className="text-sm text-muted-foreground mb-2">Percentage</p>
               <p
                 className={`text-4xl font-bold ${getPerformanceColor(
-                  result.percentage
+                  result.percentage,
                 )}`}
               >
                 {result.percentage.toFixed(1)}%
@@ -88,7 +88,7 @@ export default function QuizResults({
               <p className="text-sm text-muted-foreground mb-2">Performance</p>
               <p
                 className={`text-2xl font-bold ${getPerformanceColor(
-                  result.percentage
+                  result.percentage,
                 )}`}
               >
                 {getPerformanceLabel(result.percentage)}
@@ -118,7 +118,7 @@ export default function QuizResults({
             </p>
             <p className="text-sm text-muted-foreground mt-2">
               {((correctAnswers.length / result.totalQuestions) * 100).toFixed(
-                1
+                1,
               )}
               % of questions
             </p>
@@ -268,8 +268,8 @@ export default function QuizResults({
                                 isCorrectOption
                                   ? "bg-green-100 border border-green-300"
                                   : isUserAnswer && !isCorrect
-                                  ? "bg-red-100 border border-red-300"
-                                  : "bg-muted"
+                                    ? "bg-red-100 border border-red-300"
+                                    : "bg-muted"
                               }`}
                             >
                               <span className="font-semibold">{option}.</span>{" "}

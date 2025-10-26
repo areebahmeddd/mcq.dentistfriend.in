@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import type { User } from "@/lib/firebase-auth";
 import { logout } from "@/lib/firebase-auth";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import AdminDashboard from "./admin-dashboard";
 import UserDashboard from "./user-dashboard";
 
@@ -19,13 +19,12 @@ export default function Dashboard({ user }: DashboardProps) {
       await logout();
       window.location.reload();
     } catch (error) {
-      // Handle logout error silently
+      // Silent error handling
     }
   };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b bg-card">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
@@ -48,7 +47,6 @@ export default function Dashboard({ user }: DashboardProps) {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         {currentUser.isAdmin ? (
           <AdminDashboard user={currentUser} />

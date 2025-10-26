@@ -1,8 +1,8 @@
 "use client";
-import type { User } from "@/lib/firebase-auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import FileUploadSection from "./file-upload-section";
+import type { User } from "@/lib/firebase-auth";
 import FileManagementSection from "./file-management-section";
+import FileUploadSection from "./file-upload-section";
 
 interface AdminDashboardProps {
   user: User;

@@ -1,11 +1,11 @@
 import {
   createUserWithEmailAndPassword,
+  User as FirebaseUser,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged,
-  User as FirebaseUser,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "./firebase";
 
 export interface User {
@@ -17,7 +17,7 @@ export interface User {
 
 export function convertFirebaseUser(
   firebaseUser: FirebaseUser,
-  userData?: any
+  userData?: any,
 ): User {
   return {
     id: firebaseUser.uid,
@@ -60,13 +60,13 @@ export async function getUserDocument(userId: string): Promise<User | null> {
 export async function signUp(
   email: string,
   password: string,
-  isAdmin: boolean = false
+  isAdmin: boolean = false,
 ): Promise<User> {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     );
     const firebaseUser = userCredential.user;
 
@@ -89,7 +89,7 @@ export async function signIn(email: string, password: string): Promise<User> {
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     );
     const firebaseUser = userCredential.user;
 

@@ -2,7 +2,8 @@
 
 import type React from "react";
 
-import { useState, useEffect } from "react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,19 +11,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { parseExcelFile } from "@/lib/excel-parser";
-import {
-  saveQuizFile,
-  saveQuestions,
-  getQuizFiles,
-  type QuizFile,
-  type Question,
-} from "@/lib/firestore";
 import { generateFileId } from "@/lib/firebase-storage";
+import {
+  getQuizFiles,
+  saveQuestions,
+  saveQuizFile,
+  type Question,
+  type QuizFile,
+} from "@/lib/firestore";
+import { useEffect, useState } from "react";
 
 interface FileUploadSectionProps {
   adminId: string;
@@ -37,14 +37,13 @@ export default function FileUploadSection({ adminId }: FileUploadSectionProps) {
   const [error, setError] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<QuizFile[]>([]);
 
-  // Load uploaded files on component mount
   useEffect(() => {
     const loadFiles = async () => {
       try {
         const files = await getQuizFiles();
         setUploadedFiles(files);
       } catch (error) {
-        // Handle error silently
+        // Silent error handling
       }
     };
     loadFiles();
@@ -78,24 +77,20 @@ export default function FileUploadSection({ adminId }: FileUploadSectionProps) {
 
       const questions = await parseExcelFile(file);
 
-      // Generate unique file ID
       const quizFileId = generateFileId();
 
-      // Create quiz file record (without fileUrl for now)
       const quizFile: Omit<QuizFile, "id"> = {
         userId: adminId,
         fileName: file.name,
         subject: subject.trim(),
         topic: topic.trim(),
-        fileUrl: "", // We'll skip file storage for now
+        fileUrl: "",
         questionCount: questions.length,
         uploadedAt: new Date().toISOString(),
       };
 
-      // Save quiz file to Firestore
       const savedFileId = await saveQuizFile(quizFile);
 
-      // Save questions with file reference
       const questionsWithFileId: Omit<Question, "id">[] = questions.map(
         (q) => ({
           fileId: savedFileId,
@@ -107,19 +102,17 @@ export default function FileUploadSection({ adminId }: FileUploadSectionProps) {
           optionD: q.optionD,
           correctAnswer: q.correctAnswer.toUpperCase(),
           explanation: q.explanation,
-        })
+        }),
       );
 
       await saveQuestions(questionsWithFileId);
 
-      // Update UI
       const updatedFiles = await getQuizFiles();
       setUploadedFiles(updatedFiles);
       setMessage(
-        `Successfully uploaded "${file.name}" with ${questions.length} questions!`
+        `Successfully uploaded "${file.name}" with ${questions.length} questions!`,
       );
 
-      // Reset form
       setSubject("");
       setTopic("");
       setFile(null);
@@ -130,7 +123,7 @@ export default function FileUploadSection({ adminId }: FileUploadSectionProps) {
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to parse Excel file. Please check the format."
+          : "Failed to parse Excel file. Please check the format.",
       );
     } finally {
       setLoading(false);

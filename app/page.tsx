@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { onAuthStateChange, type User } from "@/lib/firebase-auth";
 import LoginPage from "@/components/auth/login-page";
 import Dashboard from "@/components/dashboard/dashboard";
+import { onAuthStateChange, type User } from "@/lib/firebase-auth";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);

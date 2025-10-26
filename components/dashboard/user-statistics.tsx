@@ -1,5 +1,6 @@
 "use client";
 
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Card,
   CardContent,
@@ -7,8 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import type { QuizResult, QuizFile } from "@/lib/firestore";
+import type { QuizFile, QuizResult } from "@/lib/firestore";
 
 interface UserStatisticsProps {
   results: QuizResult[];
@@ -30,7 +30,6 @@ export default function UserStatistics({
     );
   }
 
-  // Calculate statistics
   const totalAttempts = results.length;
   const totalQuestions = results.reduce((sum, r) => sum + r.totalQuestions, 0);
   const totalCorrect = results.reduce((sum, r) => sum + r.score, 0);
@@ -38,11 +37,9 @@ export default function UserStatistics({
   const averagePercentage =
     results.reduce((sum, r) => sum + r.percentage, 0) / results.length;
 
-  // Best and worst performance
   const bestPerformance = Math.max(...results.map((r) => r.percentage));
   const worstPerformance = Math.min(...results.map((r) => r.percentage));
 
-  // Performance by subject
   const performanceBySubject: Record<
     string,
     { total: number; correct: number; attempts: number }
@@ -198,8 +195,8 @@ export default function UserStatistics({
                 percentage >= 80
                   ? "bg-green-600"
                   : percentage >= 60
-                  ? "bg-yellow-600"
-                  : "bg-red-600";
+                    ? "bg-yellow-600"
+                    : "bg-red-600";
 
               return (
                 <div key={subject}>

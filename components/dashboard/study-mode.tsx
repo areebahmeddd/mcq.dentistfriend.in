@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import {
   getQuestionsByFileId,
@@ -11,6 +10,7 @@ import {
   type Question,
   type QuizFile,
 } from "@/lib/firestore";
+import { useEffect, useState } from "react";
 
 interface StudyModeProps {
   userId: string;
@@ -116,7 +116,7 @@ export default function StudyMode({
     alert(
       `Study Session Complete!\n\nScore: ${score}/${
         questions.length
-      }\nPercentage: ${percentage.toFixed(1)}%\n\nGreat job studying!`
+      }\nPercentage: ${percentage.toFixed(1)}%\n\nGreat job studying!`,
     );
     onBack();
   };

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,9 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { getQuizFiles, deleteQuizFile, type QuizFile } from "@/lib/firestore";
+import { deleteQuizFile, getQuizFiles, type QuizFile } from "@/lib/firestore";
+import { useEffect, useState } from "react";
 
 export default function FileManagementSection() {
   const [files, setFiles] = useState<QuizFile[]>([]);
@@ -22,7 +22,7 @@ export default function FileManagementSection() {
         const filesData = await getQuizFiles();
         setFiles(filesData);
       } catch (error) {
-        // Handle error silently
+        // Silent error handling
       }
     };
     loadFiles();
@@ -31,7 +31,7 @@ export default function FileManagementSection() {
   const handleDelete = async (fileId: string) => {
     if (
       confirm(
-        "Are you sure you want to delete this file? All associated questions will be deleted."
+        "Are you sure you want to delete this file? All associated questions will be deleted.",
       )
     ) {
       setLoading(true);
@@ -40,7 +40,7 @@ export default function FileManagementSection() {
         const updatedFiles = await getQuizFiles();
         setFiles(updatedFiles);
       } catch (error) {
-        // Handle error silently
+        // Silent error handling
       } finally {
         setLoading(false);
       }

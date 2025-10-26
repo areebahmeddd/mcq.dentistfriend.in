@@ -1,20 +1,20 @@
 import {
+  deleteObject,
+  getDownloadURL,
   ref,
   uploadBytes,
-  getDownloadURL,
-  deleteObject,
 } from "firebase/storage";
 import { storage } from "./firebase";
 
 export async function uploadExcelFile(
   file: File,
   userId: string,
-  fileId: string
+  fileId: string,
 ): Promise<string> {
   try {
     const storageRef = ref(
       storage,
-      `users/${userId}/quiz-files/${fileId}/original.xlsx`
+      `users/${userId}/quiz-files/${fileId}/original.xlsx`,
     );
 
     const snapshot = await uploadBytes(storageRef, file);
@@ -28,12 +28,12 @@ export async function uploadExcelFile(
 
 export async function getFileDownloadURL(
   userId: string,
-  fileId: string
+  fileId: string,
 ): Promise<string> {
   try {
     const storageRef = ref(
       storage,
-      `users/${userId}/quiz-files/${fileId}/original.xlsx`
+      `users/${userId}/quiz-files/${fileId}/original.xlsx`,
     );
     const downloadURL = await getDownloadURL(storageRef);
     return downloadURL;
@@ -44,12 +44,12 @@ export async function getFileDownloadURL(
 
 export async function deleteExcelFile(
   userId: string,
-  fileId: string
+  fileId: string,
 ): Promise<void> {
   try {
     const storageRef = ref(
       storage,
-      `users/${userId}/quiz-files/${fileId}/original.xlsx`
+      `users/${userId}/quiz-files/${fileId}/original.xlsx`,
     );
     await deleteObject(storageRef);
   } catch (error) {

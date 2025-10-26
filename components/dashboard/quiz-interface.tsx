@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import {
   getQuestionsByFileId,
@@ -12,6 +11,7 @@ import {
   type Question,
   type QuizFile,
 } from "@/lib/firestore";
+import { useEffect, useState } from "react";
 import QuizResults from "./quiz-results";
 
 interface QuizInterfaceProps {
@@ -115,11 +115,10 @@ export default function QuizInterface({
   const handleSubmit = async () => {
     if (
       confirm(
-        "Are you sure you want to submit the quiz? You cannot change your answers after submission."
+        "Are you sure you want to submit the quiz? You cannot change your answers after submission.",
       )
     ) {
       try {
-        // Calculate score
         let score = 0;
         questions.forEach((question) => {
           const userAnswer = (answers[question.id] || "").toUpperCase();
@@ -132,7 +131,6 @@ export default function QuizInterface({
 
         const percentage = (score / questions.length) * 100;
 
-        // Create result object
         const newResult = {
           userId,
           fileId: quizFileId,
@@ -143,7 +141,6 @@ export default function QuizInterface({
           completedAt: new Date().toISOString(),
         };
 
-        // Save result to Firestore
         await saveQuizResult(newResult);
 
         setResult({ ...newResult, id: "temp" });
