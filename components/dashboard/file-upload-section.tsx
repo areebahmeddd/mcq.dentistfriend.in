@@ -3,6 +3,7 @@
 import type React from "react";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -200,19 +201,36 @@ export default function FileUploadSection({ adminId }: FileUploadSectionProps) {
         <Card>
           <CardHeader>
             <CardTitle>Recently Uploaded Files</CardTitle>
+            <CardDescription>Last 5 uploads</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {uploadedFiles.slice(-5).map((f: any) => (
-                <div key={f.id} className="p-3 border rounded-lg">
-                  <p className="font-medium">
-                    {f.subject} - {f.topic}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {f.questionCount} questions
-                  </p>
-                </div>
-              ))}
+            <div className="space-y-2">
+              {uploadedFiles
+                .slice(-5)
+                .reverse()
+                .map((f: any) => (
+                  <div
+                    key={f.id}
+                    className="p-3 border rounded-lg hover:bg-accent/50 transition-colors"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <p className="font-medium text-sm">
+                          {f.subject} → {f.topic}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {f.fileName}
+                        </p>
+                      </div>
+                      <Badge variant="secondary" className="text-xs">
+                        {f.questionCount} Q's
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {new Date(f.uploadedAt).toLocaleString()}
+                    </p>
+                  </div>
+                ))}
             </div>
           </CardContent>
         </Card>

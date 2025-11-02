@@ -19,8 +19,8 @@ import { useEffect, useState } from "react";
 import ModeSelector from "./mode-selector";
 import QuizInterface from "./quiz-interface";
 import StudyMode from "./study-mode";
-import UserStatistics from "./user-statistics";
 import TopicBrowser from "./topic-browser";
+import UserStatistics from "./user-statistics";
 
 interface UserDashboardProps {
   user: User;

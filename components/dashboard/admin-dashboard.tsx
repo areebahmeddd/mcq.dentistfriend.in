@@ -1,7 +1,7 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { User } from "@/lib/firebase-auth";
-import FileManagementSection from "./file-management-section";
+import AdminFileManager from "./admin-file-manager";
 import FileUploadSection from "./file-upload-section";
 
 interface AdminDashboardProps {
@@ -29,7 +29,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         </TabsContent>
 
         <TabsContent value="manage" className="space-y-4">
-          <FileManagementSection />
+          <AdminFileManager />
         </TabsContent>
       </Tabs>
     </div>
