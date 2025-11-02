@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -21,6 +20,7 @@ import ModeSelector from "./mode-selector";
 import QuizInterface from "./quiz-interface";
 import StudyMode from "./study-mode";
 import UserStatistics from "./user-statistics";
+import TopicBrowser from "./topic-browser";
 
 interface UserDashboardProps {
   user: User;
@@ -116,63 +116,11 @@ export default function UserDashboard({ user }: UserDashboardProps) {
 
         {/* Practice Tab */}
         <TabsContent value="practice" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {quizFiles.length === 0 ? (
-              <Card className="md:col-span-2 lg:col-span-3">
-                <CardContent className="pt-6">
-                  <p className="text-center text-muted-foreground">
-                    No quiz files available yet. Check back soon!
-                  </p>
-                </CardContent>
-              </Card>
-            ) : (
-              quizFiles.map((file: any) => {
-                const fileResults = results.filter(
-                  (r: any) => r.fileId === file.id,
-                );
-                const bestScore =
-                  fileResults.length > 0
-                    ? Math.max(...fileResults.map((r: any) => r.percentage))
-                    : 0;
-
-                return (
-                  <Card
-                    key={file.id}
-                    className="hover:shadow-lg transition-shadow flex flex-col"
-                  >
-                    <CardHeader>
-                      <CardTitle className="text-lg">{file.subject}</CardTitle>
-                      <CardDescription>{file.topic}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4 flex-1 flex flex-col justify-between">
-                      <div>
-                        <p className="text-sm text-muted-foreground">
-                          {file.questionCount} questions
-                        </p>
-                        {fileResults.length > 0 && (
-                          <p className="text-sm text-muted-foreground mt-2">
-                            Best Score:{" "}
-                            <span className="font-semibold text-primary">
-                              {bestScore.toFixed(1)}%
-                            </span>
-                          </p>
-                        )}
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Attempts: {fileResults.length}
-                        </p>
-                      </div>
-                      <Button
-                        className="w-full"
-                        onClick={() => setSelectedQuizId(file.id)}
-                      >
-                        {fileResults.length > 0 ? "Retake Quiz" : "Start Quiz"}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                );
-              })
-            )}
-          </div>
+          <TopicBrowser
+            quizFiles={quizFiles}
+            results={results}
+            onSelectQuiz={(quizId) => setSelectedQuizId(quizId)}
+          />
         </TabsContent>
 
         {/* Statistics Tab */}
